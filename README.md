@@ -2,6 +2,11 @@
 
 Projeto em Python que permite a geração de senhas seguras de forma interativa via terminal. O usuário pode personalizar diversos aspectos da senha, como comprimento e tipos de caracteres, além de gerar múltiplas senhas simultaneamente e salvar as senhas geradas em um arquivo .txt.
 ---
+Menu do gerador
+
+![Captura de tela 2025-04-14 153155](https://github.com/user-attachments/assets/c6b206d4-2076-47be-8978-1744398b76b4)
+
+---
 🚀 Funcionalidades
 - ✅ Geração de senhas seguras com opções personalizáveis:
 
@@ -27,6 +32,16 @@ Projeto em Python que permite a geração de senhas seguras de forma interativa 
 
 - 📂 Organização do código em estrutura de diretórios (lib/ para módulos auxiliares)
 ---
+Mutiplas saídas
+
+![Captura de tela 2025-04-14 153958](https://github.com/user-attachments/assets/46cbb688-c23f-421d-8ed1-bdd9fb8502fd)
+---
+Escrita em .txt
+
+![Captura de tela 2025-04-14 154454](https://github.com/user-attachments/assets/bd523c02-9bb5-4743-b3ec-919bb7c5fe6f)
+
+
+---
 🛠️ Tecnologias e Ferramentas Utilizadas
 - Python 3.x: Linguagem principal do projeto
 
@@ -39,6 +54,7 @@ Projeto em Python que permite a geração de senhas seguras de forma interativa 
 - Git e GitHub: Controle de versão e hospedagem do código-fonte
 ---
 📦 Estrutura do Projeto
+
 ![image](https://github.com/user-attachments/assets/9e293df3-9c4b-4929-8a45-45fe1693595c)
 ---
 ▶️ Como Executar
@@ -50,7 +66,7 @@ Projeto em Python que permite a geração de senhas seguras de forma interativa 
 3. Navegue até o diretório do projeto:
    cd gerador_de_senhas_interativo
 
-4.Execute o script principal:
+4. Execute o script principal:
   python gerador_senhas.py
   
 5. Siga as instruções no terminal para gerar suas senhas personalizadas.
