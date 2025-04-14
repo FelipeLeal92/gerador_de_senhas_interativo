@@ -1,28 +1,63 @@
-# gerador_de_senhas_interativo
+🔐 Gerador de Senhas Interativo
 
-Gerador de senhas interativo com tratamento de erros, módulos e pacotes
+Projeto em Python que permite a geração de senhas seguras de forma interativa via terminal. O usuário pode personalizar diversos aspectos da senha, como comprimento e tipos de caracteres, além de gerar múltiplas senhas simultaneamente e salvar as senhas geradas em um arquivo .txt.
+---
+🚀 Funcionalidades
+- ✅ Geração de senhas seguras com opções personalizáveis:
 
-## Funcionalidades
+  - Comprimento da senha (mínimo de 6 caracteres)
 
-- Gerar uma senha segura
-- Gerar instantâneamente mais de uma senha segura
-- Gerar uma super-senha
-- Recuperação das senhas geradas em arquivo .txt
-- sair do programa
+  - Inclusão de letras maiúsculas
 
-## Como executar
+  - Inclusão de letras minúsculas
 
-1. Certifique-se de ter o Python instalado na versão 3.x.
-2. Clone o repositório:
+  - Inclusão de dígitos numéricos
+
+  - Inclusão de caracteres especiais
+
+- 🔁 Geração de múltiplas senhas em uma única execução
+
+- 🦾 Geração de "super-senhas" com critérios de alta complexidade
+
+- 💾 Salvamento automático das senhas geradas em um arquivo senhas_geradas.txt
+
+- 🧩 Arquitetura modular utilizando pacotes e módulos Python
+
+- 🛡️ Tratamento de erros e validação de entradas do usuário
+
+- 📂 Organização do código em estrutura de diretórios (lib/ para módulos auxiliares)
+---
+🛠️ Tecnologias e Ferramentas Utilizadas
+- Python 3.x: Linguagem principal do projeto
+
+- Módulos e Pacotes Python: Estruturação do código em módulos reutilizáveis
+
+- Manipulação de Arquivos: Leitura e escrita de arquivos .txt para armazenamento das senhas
+
+- Tratamento de Exceções: Garantia de robustez na interação com o usuário
+
+- Git e GitHub: Controle de versão e hospedagem do código-fonte
+---
+📦 Estrutura do Projeto
+![image](https://github.com/user-attachments/assets/9e293df3-9c4b-4929-8a45-45fe1693595c)
+---
+▶️ Como Executar
+1. Certifique-se de ter o Python 3.x instalado em sua máquina.
+
+2. Clone este repositório:
+  git clone https://github.com/FelipeLeal92/gerador_de_senhas_interativo.git
+
 3. Navegue até o diretório do projeto:
-4. Execute o script:
-5. Escolha a opção desejada, de acordo com o menu (1 a 4):
-7. Informe quantos caracteres vocÊ deseja que a sua senha tenha (mínimo 6)
-8. Informe se deseja caracteres especiais (S ou N)
-9. Informe se deseja letras maiúsculas (S ou N)
-10. Informe se deseja letras minúsculas (S ou N)
-11. Informe se deseja digitos na sua senha (S ou N)
+   cd gerador_de_senhas_interativo
 
-## Pontos a implementar
+4.Execute o script principal:
+  python gerador_senhas.py
+  
+5. Siga as instruções no terminal para gerar suas senhas personalizadas.
+---
+📝 Licença
+Este projeto está licenciado sob a Licença MIT. Consulte o arquivo LICENSE para obter mais detalhes.
 
-- Criar uma interface para o usuário
+---
+🙋‍♂️ Autor
+Desenvolvido por Felipe Leal
