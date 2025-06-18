@@ -1,8 +1,6 @@
-from gerador_senhas.lib.funções import *
-from gerador_senhas.lib.interface import *
+from lib.funcoes import *
+from lib.interface import *
 from time import sleep
-
-arq = 'senhas_geradas.txt'
 
 while True:
     resposta = menu(['Criar uma senha (mínimo 6 caracteres)', 'Criar mais de uma senha (mínimo 6 caracteres)',
@@ -13,17 +11,17 @@ while True:
         minusculas, maiusculas, digitos, especiais = caracteres()
         senha = opc1(tamanho, minusculas, maiusculas, digitos, especiais)
         print('Senha gerada: ', senha)
-        CriarCadastrar(arq, [senha])
+        salvar_senha([senha])
         sleep(2)
 
     elif resposta == 2:   #Opção para criar mais de uma senha
         senhas = opc2()
-        CriarCadastrar(arq, senhas)
+        salvar_senha(senhas)
         sleep(2)
 
     elif resposta == 3:   # Opção para criar super-senha
         senha = opc1(tamanho=16, minusculas=True, maiusculas=True, digitos=True, especiais=True)
-        CriarCadastrar(arq, [senha])
+        salvar_senha([senha])
         print('Senha gerada: ', senha)
         sleep(2)
 
