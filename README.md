@@ -43,6 +43,7 @@ Escrita em .txt
 
 ---
 🛠️ Tecnologias e Ferramentas Utilizadas
+
 - Python 3.x: Linguagem principal do projeto
 
 - Módulos e Pacotes Python: Estruturação do código em módulos reutilizáveis
@@ -58,7 +59,8 @@ Escrita em .txt
 ![image](https://github.com/user-attachments/assets/9e293df3-9c4b-4929-8a45-45fe1693595c)
 ---
 ▶️ Como Executar
-1. Certifique-se de ter o Python 3.x instalado em sua máquina.
+
+1. Certifique de ter o Python 3.x instalado em sua máquina.
 
 2. Clone este repositório:
   git clone https://github.com/FelipeLeal92/gerador_de_senhas_interativo.git
@@ -72,8 +74,10 @@ Escrita em .txt
 5. Siga as instruções no terminal para gerar suas senhas personalizadas.
 ---
 📝 Licença
+
 Este projeto está licenciado sob a Licença MIT. Consulte o arquivo LICENSE para obter mais detalhes.
 
 ---
 🙋‍♂️ Autor
+
 Desenvolvido por Felipe Leal
