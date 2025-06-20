@@ -1,5 +1,5 @@
 from lib.funcoes import *
-from lib.interface import *
+from lib.interface_cli import *
 from time import sleep
 
 while True:
