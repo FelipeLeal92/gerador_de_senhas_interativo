@@ -1,8 +1,9 @@
 #main_gui
 from tkinter import *
 from tkinter import ttk, messagebox 
-from lib.funcoes import gerador_senha, comprimento, salvar_senha # Funções já existentes
-import os
+from lib.funcoes import gerador_senha, salvar_senha # Funções já existentes
+import os, csv
+
 
 # Função chamada quando o botão "Gerar Senha(s)" é pressionado.
 def clicar_gerar():
@@ -66,37 +67,93 @@ def copiar_para_clipboard():
 
 
 def abrir_janela_historico():
-    if not os.path.exists("senhas_salvas.txt"):
+    """
+    Abre uma nova janela (Toplevel) que exibe o histórico de senhas salvas
+    em formato tabular (Treeview) com as colunas: data/hora, senha e local.
+    Permite editar a coluna 'local' via duplo clique, salvando as alterações no CSV.
+    """
+    filename = "senhas_salvas.csv"  # Certifique-se de usar o mesmo arquivo definido em salvar_senha.
+    if not os.path.exists(filename):
         messagebox.showinfo("Histórico", "Nenhuma senha foi salva ainda.")
         return
 
-    with open("senhas_salvas.txt", "r", encoding="utf-8") as arquivo:
-        conteudo = arquivo.read()
+    # Carrega os dados do CSV
+    dados = []
+    with open(filename, "r", newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            dados.append(row)
 
-    # Criando uma nova janela Toplevel
+    # Cria a nova janela de histórico
     janela_historico = Toplevel(janela)
     janela_historico.title("Histórico de Senhas")
-    janela_historico.geometry("500x400")
+    janela_historico.geometry("600x400")
     janela_historico.configure(bg="white")
 
-    Label(janela_historico, text="Histórico de Senhas Salvas", font=("Helvetica", 13, "bold"),
-          bg="white", fg="#333").pack(pady=10)
+    Label(janela_historico, text="Histórico de Senhas Salvas",
+          font=("Helvetica", 13, "bold"), bg="white", fg="#333").pack(pady=10)
 
-    # Frame com caixa de texto + scrollbar
-    frame_historico = Frame(janela_historico, bg="white")
-    frame_historico.pack(padx=10, pady=10, fill="both", expand=True)
+    # Cria o Treeview com as colunas: data, senha e local
+    colunas = ("data", "senha", "local")
+    tree = ttk.Treeview(janela_historico, columns=colunas, show="headings")
+    tree.heading("data", text="Data/Hora")
+    tree.heading("senha", text="Senha")
+    tree.heading("local", text="Local")
+    tree.column("data", width=150)
+    tree.column("senha", width=250)
+    tree.column("local", width=150)
+    tree.pack(fill="both", expand=True, padx=10, pady=10)
 
-    scrollbar = Scrollbar(frame_historico)
-    scrollbar.pack(side=RIGHT, fill=Y)
+    # Insere os dados carregados no Treeview
+    for row in dados:
+        tree.insert("", "end", values=(row["data"], row["senha"], row["local"]))
 
-    caixa_historico = Text(frame_historico, wrap="word", yscrollcommand=scrollbar.set,
-                           bg="#f9f9f9", font=("Helvetica", 11), relief=SOLID, bd=1)
-    caixa_historico.pack(fill="both", expand=True)
-    scrollbar.config(command=caixa_historico.yview)
+    def atualizar_csv():
+        """Percorre todos os itens do Treeview e regrava o arquivo CSV com os dados atualizados."""
+        all_items = tree.get_children()
+        with open(filename, "w", newline="", encoding="utf-8") as a:
+            nomes_colunas = ["data", "senha", "local"]
+            writer = csv.DictWriter(a, fieldnames=nomes_colunas) # type: ignore
+            writer.writeheader()
+            for item in all_items:
+                values = tree.item(item, "values")
+                writer.writerow({"data": values[0], "senha": values[1], "local": values[2]})
 
-    # Inserir conteúdo e bloquear edição
-    caixa_historico.insert("1.0", conteudo)
-    caixa_historico.config(state="disabled")
+    def on_double_click(event):
+        """
+        Permite a edição da célula na coluna 'local' ao dar duplo clique na respectiva célula.
+        Ao pressionar Enter, a edição é salva e o CSV é atualizado.
+        """
+        item_id = tree.focus()
+        column = tree.identify_column(event.x)
+        # Permite edição somente na terceira coluna ("local" – identificada como "#3")
+        if column == "#3":
+            x, y, width, height = tree.bbox(item_id, column)
+            abs_x = tree.winfo_rootx() + x
+            abs_y = tree.winfo_rooty() + y
+
+            entry_edit = Entry(janela_historico)
+            entry_edit.place(x=abs_x, y=abs_y, width=width, height=height)
+            current_value = tree.item(item_id, "values")[2]
+            entry_edit.insert(0, current_value)
+            entry_edit.focus_set()
+
+            def salvar_edicao(_):
+                new_value = entry_edit.get()
+                values = list(tree.item(item_id, "values"))
+                values[2] = new_value
+                tree.item(item_id, values=values)
+                entry_edit.destroy()
+                atualizar_csv()
+
+            entry_edit.bind("<Return>", salvar_edicao)
+            entry_edit.bind("<FocusOut>", lambda e: entry_edit.destroy())
+
+    tree.bind("<Double-1>", on_double_click)
+
+    Button(janela_historico, text="Fechar", command=janela_historico.destroy,
+           bg="#4caf50", fg="white", font=("Helvetica", 10, "bold")).pack(pady=10)
+
 
 
 # Régua invisíel
@@ -116,7 +173,7 @@ titulo.pack(pady=ESPACO_ENTRE_SECOES)
 
 #Criando Frame das opções de caracteres
 frame_opc = LabelFrame(janela, text="Opções de caracteres", padx=8, pady=8, bg="white", font=("Helvetica", 12, "bold"), fg="#555")
-frame_opc.pack(padx=ESPACO_X, pady=ESPACO_Y, fill='both', expand='yes')
+frame_opc.pack(padx=ESPACO_X, pady=ESPACO_Y, fill='both', expand=True)
 
 #Criando variáveis para armazenar as seleções
 use_maiusculas = BooleanVar()
@@ -132,7 +189,7 @@ Checkbutton(frame_opc, text='Caracteres especiais', variable = use_especiais, bg
 
 # Frame para definir a quantidade de senhas e comprimento da senha
 frame_tam = Frame(janela, bg="white")
-frame_tam = Frame(janela, bg="white").pack(pady=ESPACO_ENTRE_SECOES)
+frame_tam.pack(pady=ESPACO_ENTRE_SECOES)
 
 # Quantidade de senhas
 linha1 = Frame(frame_tam, bg="white")
@@ -148,7 +205,7 @@ linha2.pack(anchor="w", padx=ESPACO_X, pady=ESPACO_Y)
 Label(linha2, text="Comprimento da Senha:", bg="white", font=("Helvetica", 10)).pack(side="left")
 entrada_digitos = Entry(linha2, width=5, font=("Helvetica", 10))
 entrada_digitos.pack(side="left", padx=5)
-entrada_digitos.insert(0, 6)
+entrada_digitos.insert(0, "6")
 
 # Botão para gerar a senha
 botao_gerar = Button(janela, text="Gerar Senha", command=clicar_gerar, bg="#2196f3", fg="white", font=("Helvetica", 10, "bold"))

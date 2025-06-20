@@ -1,29 +1,31 @@
 from datetime import datetime
 import os
 import string
+import csv
 from random import choice, shuffle
+
 
 def gerador_senha(tamanho, use_minusculas=False, use_maiusculas=False, use_digitos=False, use_especiais=False):
 
-    caracteres = ''
+    pool = ''
     senha = []
     if use_minusculas:
         senha.append(choice(string.ascii_lowercase))
-        caracteres += string.ascii_lowercase
+        pool += string.ascii_lowercase
     if use_maiusculas:
         senha.append(choice(string.ascii_uppercase))
-        caracteres += string.ascii_uppercase
+        pool += string.ascii_uppercase
     if use_digitos:
         senha.append(choice(string.digits))
-        caracteres += string.digits
+        pool += string.digits
     if use_especiais:
         senha.append(choice(string.punctuation))
-        caracteres += string.punctuation
-    elif len(caracteres) == 0:
+        pool += string.punctuation
+    elif len(pool) == 0:
         return '\33[31mERRO! escolha pelo menos uma opção de caracteres\33[m'
 
     while len(senha) < tamanho:
-        senha.append(choice(caracteres))
+        senha.append(choice(pool))
 
     shuffle(senha)
     return ''.join(senha)
@@ -48,12 +50,12 @@ def comprimento():
 def quantidade():
     while True:
         try:
-            quantidade = int(input('Quantas senhas deseja gerar? '))
-        except:
+            qtd = int(input('Quantas senhas deseja gerar? '))
+        except ValueError:
             print('\33[31mErro! Informe um valor válido\33[m')
         else:
             break
-    return quantidade
+    return qtd
 
 
 def caracteres():
@@ -84,8 +86,17 @@ def opc2():
     return senhas
 
 
-def salvar_senha(senhas):
-    
-    with open("senhas_salvas.txt", "a") as arquivo:
+def salvar_senha(senha):
+    """
+        Salva uma nova senha no arquivo CSV com as colunas: data, senha e local.
+        O campo 'local' inicia vazio e poderá ser editado posteriormente no histórico.
+        """
+    filename = "senhas_salvas.csv"  # Você pode trocar por "senhas_salvas.txt" se preferir, mas o formato será CSV.
+    file_exists = os.path.exists(filename)
+    with open(filename, "a", newline="", encoding="utf-8") as arquivo:
+        fieldnames = ["data", "senha", "local"]
+        writer = csv.DictWriter(arquivo, fieldnames=fieldnames) # type: ignore
+        if not file_exists:
+            writer.writeheader()
         timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        arquivo.write(f'{timestamp} - {senhas}\n')
+        writer.writerow({"data": timestamp, "senha": senha, "local": ""})
